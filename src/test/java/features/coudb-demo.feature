@@ -3,11 +3,11 @@ Feature: testing an API
   Background:
     Given a url of http://localhost:5984/
 
-   Scenario: create a database
-     Given path test/
-     Then  I send a get request and the response contains error "not_found" and reason "Database does not exist."
-
-
+#   Scenario: create a database
+#     Given path test/
+#     Then  I send a get request and the response contains error "not_found" and reason "Database does not exist."
+#
+#
   Scenario: create verify and delete data
      # create
      Given path words/
@@ -20,15 +20,17 @@ Feature: testing an API
      Given path words/
      Given the first entry ID exists
 
-     # become admin
-     Given path _session
-     And I log in as user:"admin" with password:"asdfqwer1234#"
-     # delete
-     Given path words/
-     Then I delete the first entry
+#     # become admin
+#     Given path _session
+#     And I log in as user:"admin" with password:"asdfqwer1234#"
+#     # delete
+#     Given path words/
+#     Then I delete the first entry
 
 
-
+  Scenario:
+    Given path words/
+ #   Then I create entries with a cvs file
 
 
 

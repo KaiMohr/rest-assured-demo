@@ -3,9 +3,15 @@ package stepdef;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 
@@ -124,6 +130,33 @@ public class CouchDBTest {
         System.out.println(" ===  status line is: " + response.getStatusCode());
         System.out.println(" ===  ID is: " + Id);
         System.out.println(" ===  url is: " + endpoint + path + Id);
+    }
+    @Then("^I create entries with a cvs file$")
+    public void i_create_entries_with_a_cvs_file() throws Throwable {
+      //  String response = RestAssured.given().multiPart("file2", new File("src/testing.json")).
+                // /Users/kai/AndroidStudioProjects/mParrot_bak/google-translate-spreadsheet
+//               given().contentType("application/json").
+//                       when().multiPart("file2", new File("src/testing.json")).
+//                //        given().contentType("multipart/mixed").
+//                when().post(endpoint + path).then().extract().asString();
+//        System.out.println("Response is : " + response);
+
+
+
+        String jsonBody = generateStringFromResource("src/testing.json");
+        given().
+                contentType("application/json").
+                body(jsonBody.toString()).   // use jsonObj toString method
+                when().
+                post(endpoint + path).
+                then().extract().response().
+                then().assertThat().statusCode(201);
+
+    }
+    public String generateStringFromResource(String path) throws IOException {
+
+        return new String(Files.readAllBytes(Paths.get(path)));
+
     }
 
 
